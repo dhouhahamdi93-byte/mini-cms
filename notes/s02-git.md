@@ -21,3 +21,12 @@ Réponse :vendor/ est volumineux et entièrement généré ; composer install le
 ## 5. Git Credential Manager
 
 Réponse :Dans le Gestionnaire d'identification Windows (entrée git:https://github.com). On le supprime sur un poste de l'université, car la personne suivante pourrait pousser en votre nom ; on le garde sur son ordinateur personnel.
+## 6. Historique depuis lab-01
+
+Nombre de commits depuis lab-01 : <3adad el commits>
+
+Fichiers modifiés depuis lab-01 :
+<liste el fichiers men git diff --stat>
+
+Ce que git tag -n affiche pour lab-01 :
+lab-01          lab-01
