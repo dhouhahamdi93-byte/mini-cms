@@ -2,21 +2,34 @@
 
 Projet fil rouge de l'Atelier Framework Côté Serveur (Laravel 13, PHP 8.3+), 3e année MDW, ISET Sidi Bouzid.
 
-Auteur : Dhouha Hamdi, groupe MDW32.
+**Auteur :** Dhouha Hamdi
+**Groupe :** MDW32
 
 Mini-CMS évoluera au fil du semestre vers une petite plateforme de publication : pages publiques, back-office authentifié, API JSON et tests Pest. Chaque session se termine par un tag Git (`lab-01`, `lab-01b`, puis un tag par session).
 
 ## État actuel (tag lab-01b)
 
-- Routes en closures : `/`, `/bonjour`, `/bonjour-court`, `/bienvenue`, `/version`, `/heure` et `/a-propos`.
-- Vues Blade : `bienvenue`, `heure` et `a-propos`.
-- Base de données SQLite locale (`database/database.sqlite`, non versionnée).
+* Routes en closures : `/`, `/bonjour`, `/bonjour-court`, `/bienvenue`, `/version`, `/heure` et `/a-propos`.
+* Vues Blade : `bienvenue`, `heure` et `a-propos`.
+* Base de données SQLite locale (`database/database.sqlite`, non versionnée).
+
+## Routes disponibles
+
+| Méthode | URI              | Réponse                                                                |
+| ------- | ---------------- | ---------------------------------------------------------------------- |
+| GET     | `/`              | Vue `welcome` (page d'accueil par défaut de Laravel)                   |
+| GET     | `/bonjour`       | Chaîne de texte « Bonjour MDW3 ! Voici ma première route Laravel 13. » |
+| GET     | `/bonjour-court` | Chaîne de texte, écrite avec une fonction fléchée                      |
+| GET     | `/bienvenue`     | Vue `bienvenue` avec le nom de l'étudiant, le groupe et le cours       |
+| GET     | `/version`       | Chaîne avec la version de Laravel et celle de PHP                      |
+| GET     | `/heure`         | Vue `heure` avec l'heure (format H:i) et la date (format d/m/Y)        |
+| GET     | `/a-propos`      | Vue `a-propos` avec le nom de l'auteur et le groupe                    |
 
 ## Prérequis
 
-- PHP et Composer (PHP 8.3 ou plus depuis https://www.php.net/downloads, avec les extensions curl, fileinfo, mbstring, openssl, pdo_sqlite, sqlite3 et zip activées dans php.ini, et Composer depuis https://getcomposer.org).
-- Node.js LTS et npm.
-- Git.
+* PHP et Composer (PHP 8.3 ou plus depuis https://www.php.net/downloads, avec les extensions `curl`, `fileinfo`, `mbstring`, `openssl`, `pdo_sqlite`, `sqlite3` et `zip` activées dans `php.ini`, et Composer depuis https://getcomposer.org).
+* Node.js LTS et npm.
+* Git.
 
 ## Installation
 
@@ -62,8 +75,8 @@ Ouvrir ensuite http://localhost:8000 (adresse de l'application, différente de l
 
 ### Liste des routes
 
-![Sortie de php artisan route:list](screenshots/s01-route-list.png)
+![Sortie de php artisan route](screenshots/s01-route-list.png)
 
 ### Page À propos
 
-![Page A propos](screenshots/s02-a-propos.png)
+![Page À propos](screenshots/s02-a-propos.png)
