@@ -23,5 +23,6 @@ Route::middleware('writable')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('categories', CategoryController::class)->except('show');
         Route::resource('tags', TagController::class)->except('show');
+        Route::get('/loc', fn () => app()->getLocale());
     });
 });
