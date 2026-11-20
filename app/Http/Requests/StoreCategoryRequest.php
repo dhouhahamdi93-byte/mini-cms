@@ -12,7 +12,7 @@ class StoreCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('manage-categories');
     }
 
     /**
@@ -36,7 +36,7 @@ class StoreCategoryRequest extends FormRequest
     public function messages(): array
     {
         return [
-           'slug.unique' => 'Ce slug est déjà utilisé par une autre catégorie.',
+            'slug.unique' => 'Ce slug est déjà utilisé par une autre catégorie.',
         ];
     }
 }

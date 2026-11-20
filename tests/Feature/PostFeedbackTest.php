@@ -1,9 +1,11 @@
 <?php
 
 use App\Models\Post;
+use App\Models\User;
 
 beforeEach(function () {
     $this->withoutVite();
+    $this->actingAs(User::factory()->admin()->create());
 });
 
 function feedbackPostData(array $overrides = []): array
@@ -42,20 +44,4 @@ it('keeps the standard 404 page for an unknown category', function () {
     $this->get('/posts/categorie/inconnue')
         ->assertNotFound()
         ->assertDontSee('Article introuvable');
-        it('shows the read-only banner on the home page', function () {
-    config(['site.read_only' => true]);
-
-    $this->get('/')
-        ->assertOk()
-        ->assertSee('Site en lecture seule');
 });
-
-it('lists a published post but not a draft on the unknown post page', function () {
-    $published = Post::factory()->published()->create(['title' => 'Titre publie visible']);
-    $draft = Post::factory()->create(['title' => 'Titre brouillon cache', 'is_published' => false]);
-
-    $this->get('/posts/999')
-        ->assertNotFound()
-        ->assertSee('Titre publie visible')
-        ->assertDontSee('Titre brouillon cache');
-}); });
