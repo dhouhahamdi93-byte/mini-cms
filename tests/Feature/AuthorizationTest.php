@@ -47,7 +47,9 @@ it('lets an author edit their own post', function () {
 });
 
 it('forbids an author to edit the post of another user', function () {
-    $post = Post::factory()->create(['user_id' => User::factory()->create()->id]);
+    $post = Post::factory()->create([
+        'user_id' => User::factory()->create()->id,
+    ]);
 
     $this->actingAs(User::factory()->create())
         ->get(route('posts.edit', $post))
@@ -55,33 +57,46 @@ it('forbids an author to edit the post of another user', function () {
 });
 
 it('forbids an author to update the post of another user', function () {
-    $post = Post::factory()->create(['user_id' => User::factory()->create()->id]);
+    $post = Post::factory()->create([
+        'user_id' => User::factory()->create()->id,
+    ]);
 
     $this->actingAs(User::factory()->create())
         ->put(route('posts.update', $post), authorizationPostData())
         ->assertForbidden();
 
-    $this->assertDatabaseMissing('posts', ['slug' => 'article-protege']);
+    $this->assertDatabaseMissing('posts', [
+        'slug' => 'article-protege',
+    ]);
 });
 
 it('forbids an author to delete the post of another user', function () {
-    $post = Post::factory()->create(['user_id' => User::factory()->create()->id]);
+    $post = Post::factory()->create([
+        'user_id' => User::factory()->create()->id,
+    ]);
 
     $this->actingAs(User::factory()->create())
         ->delete(route('posts.destroy', $post))
         ->assertForbidden();
 
-    $this->assertDatabaseHas('posts', ['id' => $post->id]);
+    $this->assertDatabaseHas('posts', [
+        'id' => $post->id,
+    ]);
 });
 
 it('lets an admin update any post', function () {
-    $post = Post::factory()->create(['user_id' => User::factory()->create()->id]);
+    $post = Post::factory()->create([
+        'user_id' => User::factory()->create()->id,
+    ]);
 
     $this->actingAs(User::factory()->admin()->create())
         ->put(route('posts.update', $post), authorizationPostData())
         ->assertRedirect(route('posts.show', $post));
 
-    $this->assertDatabaseHas('posts', ['id' => $post->id, 'slug' => 'article-protege']);
+    $this->assertDatabaseHas('posts', [
+        'id' => $post->id,
+        'slug' => 'article-protege',
+    ]);
 });
 
 it('keeps the category back office for admins', function () {
@@ -92,4 +107,36 @@ it('keeps the category back office for admins', function () {
     $this->actingAs(User::factory()->admin()->create())
         ->get(route('admin.categories.index'))
         ->assertOk();
+});
+
+/*
+|--------------------------------------------------------------------------
+| Tests for /mes-articles
+|--------------------------------------------------------------------------
+*/
+
+it('shows only the authenticated user posts on my posts page', function () {
+    $user = User::factory()->create();
+    $otherUser = User::factory()->create();
+
+    Post::factory()->create([
+        'user_id' => $user->id,
+        'title' => 'Mon article personnel',
+    ]);
+
+    Post::factory()->create([
+        'user_id' => $otherUser->id,
+        'title' => 'Article d un autre utilisateur',
+    ]);
+
+    $this->actingAs($user)
+        ->get(route('my-posts'))
+        ->assertOk()
+        ->assertSee('Mon article personnel')
+        ->assertDontSee('Article d un autre utilisateur');
+});
+
+it('redirects a guest to login from my posts page', function () {
+    $this->get(route('my-posts'))
+        ->assertRedirect(route('login'));
 });
